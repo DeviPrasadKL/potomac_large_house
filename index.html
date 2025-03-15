@@ -12,7 +12,7 @@
 
 <div id="pano"></div>
 
-<div id="sceneList">
+<div id="sceneList" class="hidden">
   <ul class="scenes">
     
       <a href="javascript:void(0)" class="scene" data-id="0-foyer-1f">
@@ -174,6 +174,8 @@
   </ul>
 </div>
 
+<div id="toggleButton" class="floating-button">☰</div>
+
 <div id="titleBar">
   <h1 class="sceneName"></h1>
 </div>
@@ -218,6 +220,14 @@
 
 <script src="data.js"></script>
 <script src="index.js"></script>
+
+<script>
+  // Toggle sidebar visibility
+  document.getElementById('toggleButton').addEventListener('click', function() {
+    var sceneList = document.getElementById('sceneList');
+    sceneList.classList.toggle('hidden');
+  });
+</script>
 
 </body>
 </html>
