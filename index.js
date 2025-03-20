@@ -15,7 +15,7 @@
  */
 'use strict';
 
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
   var Marzipano = window.Marzipano;
   var bowser = window.bowser;
   var screenfull = window.screenfull;
@@ -26,6 +26,12 @@
   var sceneNameElement = document.querySelector('#titleBar .sceneName');
   var autorotateToggleElement = document.querySelector('#autorotateToggle');
   var fullscreenToggleElement = document.querySelector('#fullscreenToggle');
+
+  // Initialize only if elements exist
+  if (!panoElement || !sceneNameElement || !autorotateToggleElement || !fullscreenToggleElement) {
+    console.error('Required elements not found');
+    return;
+  }
 
   // Detect desktop or mobile mode.
   if (window.matchMedia) {
@@ -136,55 +142,146 @@
 
   // Set handler for scene switch.
   if (scenes.length > 0) {
+    // Organize scenes into rooms and floors
+    var roomsContainer = document.querySelector('.rooms-container');
+    var floorsContainer = document.querySelector('.floors-container');
+    var roomsList = document.getElementById('roomsList');
+    var floorsList = document.getElementById('floorsList');
+    var roomsToggle = document.getElementById('roomsToggle');
+    var floorsToggle = document.getElementById('floorsToggle');
+
+    // Sort scenes into floors
+    var floors = {};
     scenes.forEach(function(scene) {
-      var el = document.querySelector('#sceneList .scene[data-id="' + scene.data.id + '"]');
-      if (el) {
-        el.addEventListener('click', function() {
+      var floorMatch = scene.data.name.match(/(\d+)F$/);
+      var floor = floorMatch ? floorMatch[1] : '1';
+      if (!floors[floor]) {
+        floors[floor] = [];
+      }
+      floors[floor].push(scene);
+    });
+
+    // Create room items (initially hidden)
+    scenes.forEach(function(scene) {
+      var div = document.createElement('div');
+      div.className = 'room-item';
+      
+      // Remove floor suffix for display
+      div.textContent = scene.data.name.replace(/[-]?\d+F$/, '');
+      
+      // Safely extract floor number with a fallback to '1'
+      var floorMatch = scene.data.name.match(/(\d+)F$/);
+      var floorNumber = floorMatch ? floorMatch[1] : '1';
+      div.setAttribute('data-floor', floorNumber);
+      
+      div.style.display = 'none'; // Hide initially
+      div.addEventListener('click', function() {
           switchScene(scene);
-          // On mobile, hide scene list after selecting a scene.
-          if (document.body.classList.contains('mobile')) {
-            hideSceneList();
-          }
+        hideAllLists();
+      });
+      roomsContainer.appendChild(div);
+    });
+
+    // Create floor items
+    Object.keys(floors).sort().forEach(function(floor) {
+      var div = document.createElement('div');
+      div.className = 'floor-item';
+      div.textContent = floor + 'F';
+      div.addEventListener('click', function() {
+        // Hide all rooms first
+        document.querySelectorAll('.room-item').forEach(function(item) {
+          item.style.display = 'none';
         });
+        // Show only rooms for this floor
+        document.querySelectorAll('.room-item[data-floor="' + floor + '"]').forEach(function(item) {
+          item.style.display = 'flex';
+        });
+        showRoomsList();
+        
+        // Update active state for floors
+        document.querySelectorAll('.floor-item').forEach(function(item) {
+          item.classList.remove('active');
+        });
+        div.classList.add('active');
+      });
+      floorsContainer.appendChild(div);
+    });
+
+    // Show rooms for the initial floor
+    var initialFloor = scenes[0].data.name.match(/(\d+)F$/)[1];
+    document.querySelectorAll('.room-item[data-floor="' + initialFloor + '"]').forEach(function(item) {
+      item.style.display = 'flex';
+    });
+
+    // Toggle handlers
+    roomsToggle.addEventListener('click', function() {
+      if (roomsList.classList.contains('visible')) {
+        hideAllLists();
+      } else {
+        showRoomsList();
+      }
+    });
+
+    floorsToggle.addEventListener('click', function() {
+      if (floorsList.classList.contains('visible')) {
+        hideAllLists();
+      } else {
+        showFloorsList();
       }
     });
   }
 
-  // DOM elements for view controls.
-  var viewUpElement = document.querySelector('#viewUp');
-  var viewDownElement = document.querySelector('#viewDown');
-  var viewLeftElement = document.querySelector('#viewLeft');
-  var viewRightElement = document.querySelector('#viewRight');
-  var viewInElement = document.querySelector('#viewIn');
-  var viewOutElement = document.querySelector('#viewOut');
-
-  // Dynamic parameters for controls.
-  var velocity = 0.7;
-  var friction = 3;
-
-  // Associate view controls with elements.
-  var controls = viewer.controls();
-  controls.registerMethod('upElement',    new Marzipano.ElementPressControlMethod(viewUpElement,     'y', -velocity, friction), true);
-  controls.registerMethod('downElement',  new Marzipano.ElementPressControlMethod(viewDownElement,   'y',  velocity, friction), true);
-  controls.registerMethod('leftElement',  new Marzipano.ElementPressControlMethod(viewLeftElement,   'x', -velocity, friction), true);
-  controls.registerMethod('rightElement', new Marzipano.ElementPressControlMethod(viewRightElement,  'x',  velocity, friction), true);
-  controls.registerMethod('inElement',    new Marzipano.ElementPressControlMethod(viewInElement,  'zoom', -velocity, friction), true);
-  controls.registerMethod('outElement',   new Marzipano.ElementPressControlMethod(viewOutElement, 'zoom',  velocity, friction), true);
-
-  function sanitize(s) {
-    return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;');
+  function showRoomsList() {
+    hideAllLists();
+    roomsList.classList.remove('hidden');
+    roomsList.classList.add('visible');
   }
 
+  function showFloorsList() {
+    hideAllLists();
+    floorsList.classList.remove('hidden');
+    floorsList.classList.add('visible');
+  }
+
+  function hideAllLists() {
+    [roomsList, floorsList].forEach(function(list) {
+      if (list.classList.contains('visible')) {
+        list.classList.remove('visible');
+        // Wait for the transition to complete before hiding
+        setTimeout(function() {
+          list.classList.add('hidden');
+        }, 300); // Match this with your CSS transition time
+      }
+    });
+  }
+
+  // Update active states
+  function updateActiveStates(scene) {
+    document.querySelectorAll('.room-item').forEach(function(item) {
+      item.classList.toggle('active', item.textContent === scene.data.name);
+    });
+    
+    var floorMatch = scene.data.name.match(/(\d+)F$/);
+    var floor = floorMatch ? floorMatch[1] + 'F' : '1F';
+    document.querySelectorAll('.floor-item').forEach(function(item) {
+      item.classList.toggle('active', item.textContent === floor);
+    });
+  }
+
+  // Update the switchScene function to include active state updates
   function switchScene(scene) {
     stopAutorotate();
     scene.view.setParameters(scene.data.initialViewParameters);
     scene.scene.switchTo();
     startAutorotate();
     updateSceneName(scene);
+    updateActiveStates(scene);
   }
 
   function updateSceneName(scene) {
-    sceneNameElement.innerHTML = sanitize(scene.data.name);
+    // Remove the -1F, -2F, -3F suffix for display
+    var displayName = scene.data.name.replace(/[-]?\d+F$/, '');
+    sceneNameElement.textContent = displayName;
   }
 
   function startAutorotate() {
@@ -362,5 +459,4 @@
 
   // Display the initial scene.
   switchScene(scenes[0]);
-
-})();
+});

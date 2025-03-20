@@ -50,82 +50,42 @@ a:visited {
   position: absolute;
   top: 0;
   left: 0;
-  right: 40px;
+  right: 0;
   height: 40px;
   text-align: center;
+  background-color: rgba(197, 165, 78, 0);
+  background-color: rgba(58, 68, 84, 0.096);
+  z-index: 100;
 }
 
 .mobile #titleBar {
   height: 50px;
-  right: 50px;
 }
 
-/* If there is a fullscreen button the title bar must make space for it */
-body.fullscreen-enabled #titleBar {
-  right: 80px;
-}
-
-body.fullscreen-enabled.mobile #titleBar {
-  right: 100px;
-}
-
-body.multiple-scenes.mobile #titleBar {
-  left: 50px;
-}
-
+/* title bar */
 #titleBar .sceneName {
   width: 100%;
   height: 100%;
-  line-height: 30px;
-  padding: 5px;
-  background-color: rgba(197, 165, 78, 0);
-  background-color: rgba(58, 68, 84, 0.096);
+  line-height: 40px;
+  padding: 0 10px;
+  color: #fff;
+  text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
-  -moz-user-select: text;
-  -webkit-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: capitalize;
 }
 
 .mobile #titleBar .sceneName {
-  line-height: 40px;
-}
-
-#fullscreenToggle {
-  display: none;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 40px;
-  height: 40px;
-  padding: 5px;
-  background-color:rgba(197, 165, 78, 0);
-  background-color: rgba(58, 68, 84, 0.096);
-}
-
-.mobile #fullscreenToggle {
-  width: 50px;
-  height: 50px;
+  line-height: 50px;
+  font-size: 14px;
 }
 
 body.fullscreen-enabled #fullscreenToggle {
   display: block;
-}
-
-#fullscreenToggle .icon {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 30px;
-  height: 30px;
-}
-
-.mobile #fullscreenToggle .icon {
-  top: 10px;
-  right: 10px;
 }
 
 #fullscreenToggle .icon.on {
@@ -142,45 +102,6 @@ body.fullscreen-enabled #fullscreenToggle {
 
 #fullscreenToggle.enabled .icon.off {
   display: none;
-}
-
-#autorotateToggle {
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 40px;
-  height: 40px;
-  padding: 5px;
-  background-color:rgba(197, 165, 78, 0);
-  background-color: rgba(58, 68, 84, 0.096);
-}
-
-.mobile #autorotateToggle {
-  width: 50px;
-  height: 50px;
-}
-
-/* If there is a fullscreen button, autorotate must placed a bit to the left */
-body.fullscreen-enabled #autorotateToggle {
-  right: 40px;
-}
-
-body.fullscreen-enabled.mobile #autorotateToggle {
-  right: 50px;
-}
-
-#autorotateToggle .icon {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 30px;
-  height: 30px;
-}
-
-.mobile #autorotateToggle .icon {
-  top: 10px;
-  right: 10px;
 }
 
 #autorotateToggle .icon.on {
@@ -205,16 +126,8 @@ body.fullscreen-enabled.mobile #autorotateToggle {
   background-color: rgba(58, 68, 84, 0.8);
 }
 
-.enabled {
-  margin-left: 100%;
-}
-
 .scenes {
   height: 100%;
-}
-
-.enabled {
-  margin-left: 220px;
 }
 
 .scene {
@@ -242,12 +155,12 @@ body.fullscreen-enabled.mobile #autorotateToggle {
 }
 
 .no-touch .scene:hover {
-  background-color:rgba(197, 165, 78, 0);
+  background-color: rgba(197, 165, 78, 0);
   background-color: rgba(58, 68, 84, 0.096);
 }
 
 .scene.current {
-  background-color:rgba(197, 165, 78, 0);
+  background-color: rgba(197, 165, 78, 0);
   background-color: rgba(58, 68, 84, 0.096);
 }
 
@@ -380,7 +293,7 @@ body.single-scene {
   width: 40px;
   height: 40px;
   border-radius: 20px;
-  background-color:rgba(197, 165, 78, 0);
+  background-color: rgba(197, 165, 78, 0);
   cursor: pointer;
   -webkit-transition: width 0.3s ease-in-out 0.5s,
     border-radius 0.3s ease-in-out 0.5s;
@@ -609,7 +522,7 @@ body.single-scene {
   right: 10px;
   width: auto;
   height: 50px;
-  background-color:rgba(197, 165, 78, 0);
+  background-color: rgba(197, 165, 78, 0);
   background-color: rgba(58, 68, 84, 0.096);
   opacity: 0;
   -webkit-transition: opacity 0.3s ease-in-out 0.2s;
@@ -713,7 +626,7 @@ body.single-scene {
   width: 40px;
   height: 40px;
   padding: 5px;
-  background-color:rgba(197, 165, 78, 0);
+  background-color: rgba(197, 165, 78, 0);
   background-color: rgba(58, 68, 84, 0.096);
 }
 
@@ -759,4 +672,314 @@ body.view-control-buttons .viewControlButton {
 
 .viewControlButton-6 {
   margin-left: 105px;
+}
+
+/* better styles */
+/* Navigation Menu */
+/* .nav-menu {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: rgba(58, 68, 84, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 8px 24px;
+  border-radius: 8px;
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+} */
+
+/* given styles from figma */
+.nav-menu {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  -webkit-backdrop-filter: blur(5.599999904632568px);
+  padding: 8px 24px;
+  border-radius: 8px;
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  background: #D2D2D273;
+  backdrop-filter: blur(5.599999904632568px);
+  border: 1px solid;
+}
+
+.nav-item {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+/* Tooltip styles */
+.nav-item::after {
+  content: attr(tool-tip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-16px);
+  padding: 6px 12px;
+  background: #D2D2D273;
+  color: white;
+  font-size: 14px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 1002;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  border: 1px solid;
+}
+
+/* Tooltip arrow */
+
+/* Show tooltip on hover */
+.nav-item:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Mobile styles for tooltips */
+@media (max-width: 768px) {
+  .nav-item::after {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+  
+  .nav-item::before {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgba(58, 68, 84, 0.9);
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 320px) {
+  .nav-item::after {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.nav-item img {
+  width: 24px;
+  height: 24px;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.nav-item:hover img {
+  opacity: 1;
+}
+
+.nav-item .icon.on,
+.nav-item .icon.off {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+}
+
+.nav-item .icon.on {
+  display: none;
+}
+
+.nav-item .icon.off {
+  display: block;
+}
+
+#autorotateToggle.enabled .icon.on,
+#fullscreenToggle.enabled .icon.on {
+  display: block;
+}
+
+#autorotateToggle.enabled .icon.off,
+#fullscreenToggle.enabled .icon.off {
+  display: none;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .nav-menu {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 15px;
+    gap: 12px;
+    width: auto;
+    min-width: 280px;
+    justify-content: space-between;
+  }
+
+  .nav-item {
+    width: 42px;
+    height: 42px;
+    margin: 0;
+  }
+
+  .nav-item img,
+  .nav-item .icon.on,
+  .nav-item .icon.off {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 320px) {
+  .nav-menu {
+    min-width: 240px;
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .nav-item {
+    width: 38px;
+    height: 38px;
+  }
+
+  .nav-item img,
+  .nav-item .icon.on,
+  .nav-item .icon.off {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+
+#floorsList {
+  position: fixed;
+  bottom: 90px;
+  /* Final visible position */
+  right: 20px;
+  background: #D2D2D273;
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  padding: 10px 0;
+  min-width: 200px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(0, 70px) scale(0.1);
+  /* Start small and lower */
+  transform-origin: bottom right;
+  transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.5s ease;
+  z-index: 1001;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+  pointer-events: none;
+  /* Prevent interaction when hidden */
+}
+
+#roomsList {
+  position: fixed;
+  bottom: 90px;
+  /* Final visible position */
+  right: 120px;
+  background: #D2D2D273;
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  padding: 10px 0;
+  min-width: 200px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(0, 70px) scale(0.1);
+  /* Start small and lower */
+  transform-origin: bottom right;
+  transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.5s ease;
+  z-index: 1001;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+  pointer-events: none;
+  /* Prevent interaction when hidden */
+}
+
+#roomsList.visible,
+#floorsList.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0, 0) scale(1);
+  /* Full size at final position */
+  pointer-events: auto;
+  /* Allow interaction when visible */
+}
+
+.room-item,
+.floor-item {
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #333;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.room-item:last-child,
+.floor-item:last-child {
+  border-bottom: none;
+}
+
+.room-item:hover,
+.floor-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.room-item.active,
+.floor-item.active {
+  background: rgba(0, 0, 0, 0.1);
+  color: #000;
+  font-weight: 500;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+
+  #roomsList,
+  #floorsList {
+    position: fixed;
+    bottom: 90px;
+    left: 20px;
+    right: 20px;
+    width: auto;
+    max-height: 50vh;
+  }
+
+  .room-item,
+  .floor-item {
+    padding: 15px 20px;
+  }
 }
